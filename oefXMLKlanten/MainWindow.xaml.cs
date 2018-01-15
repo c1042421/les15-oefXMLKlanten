@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Data.Odbc;
+using System.Xml;
 
 namespace oefXMLKlanten
 {
@@ -23,6 +25,27 @@ namespace oefXMLKlanten
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void btnMaakXML_Click(object sender, RoutedEventArgs e)
+        {
+            OdbcConnection con = new OdbcConnection(Properties.Settings.Default.ConnectionString);
+
+            con.Open();
+
+            OdbcCommand command = new OdbcCommand("Select * from tblKlanten",con);
+
+            OdbcDataReader reader = command.ExecuteReader();
+
+            XmlDocument xmlKlanten = new XmlDocument();
+
+            while (reader.Read())
+            {
+                //TODO: logica om alle gegevens in XML te zetten
+
+            }
+
+            con.Close();
         }
     }
 }

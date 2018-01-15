@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:oefXMLKlanten"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+    <DockPanel>
+        <Button HorizontalAlignment="Left" Name="btnMaakXML" DockPanel.Dock="Top" Margin="2" Width="100" Click="btnMaakXML_Click">Maak XML</Button>
+        <WebBrowser Name="wbKlanten"></WebBrowser>
+    </DockPanel>
 </Window>
