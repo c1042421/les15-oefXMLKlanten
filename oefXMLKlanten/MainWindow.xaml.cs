@@ -29,23 +29,30 @@ namespace oefXMLKlanten
 
         private void btnMaakXML_Click(object sender, RoutedEventArgs e)
         {
-            OdbcConnection con = new OdbcConnection(Properties.Settings.Default.ConnectionString);
-
-            con.Open();
-
-            OdbcCommand command = new OdbcCommand("Select * from tblKlanten",con);
-
-            OdbcDataReader reader = command.ExecuteReader();
-
             XmlDocument xmlKlanten = new XmlDocument();
 
-            while (reader.Read())
-            {
-                //TODO: logica om alle gegevens in XML te zetten
+            String pad = Environment.CurrentDirectory + @"\klanten.xml";
+            XmlWriter writer = XmlWriter.Create(pad);
 
+            writer.WriteStartElement("Klanten");    
+
+            foreach (Klanten klant in Datamanager.getAllKlanten())
+            {
+                writer.WriteStartElement("klant");
+                writer.WriteAttributeString("ID", klant.Klantnummer);
+                writer.WriteElementString("naam", klant.Bedrijf);
+                writer.WriteElementString("adres", klant.Adres);
+                writer.WriteStartElement("gemeente");
+                writer.WriteAttributeString("postcode", klant.Postcode);
+                writer.WriteString(klant.Plaats);
+                writer.WriteEndElement();
+
+                writer.WriteEndElement();
             }
 
-            con.Close();
+            writer.WriteEndElement();
+
+            wbKlanten.Navigate(pad);
         }
     }
 }
